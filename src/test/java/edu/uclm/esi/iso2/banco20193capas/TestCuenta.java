@@ -237,7 +237,7 @@ public class TestCuenta extends TestCase {
 		try {
 			c.ingresar(negativo);
 		} catch (ImporteInvalidoException e) {
-			fail();
+			
 		}
 	}
 	@Test
@@ -247,8 +247,10 @@ public class TestCuenta extends TestCase {
 		
 			try {
 				c.retirar(negativo);
-			} catch (SaldoInsuficienteException | ImporteInvalidoException e) {
+			} catch (SaldoInsuficienteException  e) {
 				fail();
+			} catch (ImporteInvalidoException e) {
+				
 			}
 		
 	}
@@ -262,7 +264,8 @@ public class TestCuenta extends TestCase {
 			c.addTitular(david);
 			c.insert();
 			c.addTitular(david);
-		} catch (CuentaYaCreadaException | CuentaSinTitularesException e) {
+		} catch (CuentaYaCreadaException  e) {
+		} catch (CuentaSinTitularesException e) {
 			fail();
 		}
 		
@@ -272,8 +275,6 @@ public class TestCuenta extends TestCase {
 		Cuenta c = new Cuenta(1);
 		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
 		david.insert();
-		
-		
 	}
 	@Test
 	public void testDNITarjeta() {
@@ -287,7 +288,13 @@ public class TestCuenta extends TestCase {
 			TarjetaCredito tc = c.emitirTarjetaCredito("0593635Q", 1000);
 			assertTrue(tc.getTitular().getNif().equals(david.getNif()));
 			
-		} catch (CuentaSinTitularesException | CuentaYaCreadaException | ClienteNoEncontradoException | ClienteNoAutorizadoException e) {
+		} catch (CuentaSinTitularesException  e) {
+			fail();
+		} catch (CuentaYaCreadaException e) {
+			fail();
+		} catch (ClienteNoEncontradoException e) {
+			
+		} catch (ClienteNoAutorizadoException e) {
 			fail();
 		}
 		
@@ -309,7 +316,13 @@ public class TestCuenta extends TestCase {
 			c.insert();
 			c.emitirTarjetaDebito(david.getNif());
 			
-		} catch (CuentaSinTitularesException | CuentaYaCreadaException | ClienteNoEncontradoException | ClienteNoAutorizadoException e) {
+		} catch (CuentaSinTitularesException  e) {
+			fail();
+		} catch (CuentaYaCreadaException e) {
+			fail();
+		} catch (ClienteNoEncontradoException e) {
+			fail();
+		} catch (ClienteNoAutorizadoException e) {
 			fail();
 		}
 		
@@ -322,8 +335,10 @@ public class TestCuenta extends TestCase {
 		try {
 			c.addTitular(david);
 			c.insert();
-		} catch (CuentaYaCreadaException | CuentaSinTitularesException e) {
+		} catch (CuentaYaCreadaException  e) {
 			fail();
+		} catch (CuentaSinTitularesException e) {
+			
 		}
 	
 	}
