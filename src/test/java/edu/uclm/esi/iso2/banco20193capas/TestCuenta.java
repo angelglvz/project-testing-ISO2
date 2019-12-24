@@ -1,5 +1,8 @@
 package edu.uclm.esi.iso2.banco20193capas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import edu.uclm.esi.iso2.banco20193capas.model.Cuenta;
 import edu.uclm.esi.iso2.banco20193capas.model.Manager;
+import edu.uclm.esi.iso2.banco20193capas.exceptions.ClienteNoAutorizadoException;
+import edu.uclm.esi.iso2.banco20193capas.exceptions.ClienteNoEncontradoException;
 import edu.uclm.esi.iso2.banco20193capas.exceptions.CuentaInvalidaException;
 import edu.uclm.esi.iso2.banco20193capas.exceptions.CuentaSinTitularesException;
 import edu.uclm.esi.iso2.banco20193capas.exceptions.CuentaYaCreadaException;
@@ -17,6 +22,7 @@ import edu.uclm.esi.iso2.banco20193capas.exceptions.SaldoInsuficienteException;
 import edu.uclm.esi.iso2.banco20193capas.model.Cliente;
 import edu.uclm.esi.iso2.banco20193capas.model.Tarjeta;
 import edu.uclm.esi.iso2.banco20193capas.model.TarjetaCredito;
+import edu.uclm.esi.iso2.banco20193capas.model.TarjetaDebito;
 import junit.framework.TestCase;
 
 @RunWith(SpringRunner.class)
@@ -188,7 +194,7 @@ public class TestCuenta extends TestCase {
 			cuentaPepe.insert();
 			
 			cuentaPepe.ingresar(1000);
-			cuentaPepe.retirar(200);;
+			cuentaPepe.retirar(200);
 			assertTrue(cuentaPepe.getSaldo()==800);
 			
 			TarjetaCredito tc = cuentaPepe.emitirTarjetaCredito("12345X", 1000);
@@ -202,5 +208,143 @@ public class TestCuenta extends TestCase {
 		} catch (Exception e) {
 			fail("Excepción inesperada: " + e.getMessage());
 		}
+	}
+	@Test
+	public void testsetid() {
+		Cuenta c=new Cuenta();
+		long l=2;
+		c.setId(l);
+		assertTrue(c.getId()==2);
+	}
+	@Test
+	public void testsettitulares() {
+		Cuenta c=new Cuenta();
+		List<Cliente> titulares=new ArrayList<Cliente>();
+		c.setTitulares(titulares);;
+		assertTrue(c.getTitulares()==titulares);
+	}
+	@Test
+	public void testsetcreada() {
+		Cuenta c=new Cuenta();
+		c.setCreada(true);;
+		assertTrue(c.isCreada()==true);
+	}
+	@Test
+	public void testIngresarValorNegativo()  {
+		int negativo=-1;
+		Cuenta c = new Cuenta(1);
+		try {
+			c.ingresar(negativo);
+		} catch (ImporteInvalidoException e) {
+			fail();
+		}
+	}
+	@Test
+	public void testRetirarValorNegativo()  {
+		int negativo=-1;
+		Cuenta c = new Cuenta(1);
+		
+			try {
+				c.retirar(negativo);
+			} catch (SaldoInsuficienteException | ImporteInvalidoException e) {
+				fail();
+			}
+		
+	}
+	@Test
+	public void testAddTitularRepetido() {//no funciona
+		Cuenta c = new Cuenta(1);
+		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
+		david.insert();
+		
+		try {
+			c.addTitular(david);
+			c.insert();
+			c.addTitular(david);
+		} catch (CuentaYaCreadaException | CuentaSinTitularesException e) {
+			fail();
+		}
+		
+	}
+	@Test
+	public void testLoadVacio() {//queda averiguar como usar un metodo protegido
+		Cuenta c = new Cuenta(1);
+		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
+		david.insert();
+		
+		
+	}
+	@Test
+	public void testDNITarjeta() {
+		Cuenta c = new Cuenta(1);
+		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
+		david.insert();
+		try {
+			c.addTitular(david);
+			c.insert();
+			
+			TarjetaCredito tc = c.emitirTarjetaCredito("0593635Q", 1000);
+			assertTrue(tc.getTitular().getNif().equals(david.getNif()));
+			
+		} catch (CuentaSinTitularesException | CuentaYaCreadaException | ClienteNoEncontradoException | ClienteNoAutorizadoException e) {
+			fail();
+		}
+		
+	}
+	
+	
+	@Test
+	public void testTrsansferenciaalamismacuenta() {
+		Cuenta c = new Cuenta(1);
+		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
+		try {
+			c.addTitular(david);
+		} catch (CuentaYaCreadaException e1) {
+			fail();
+		}
+		try {
+			c.insert();
+		} catch (CuentaSinTitularesException e) {
+			fail();
+		}
+		long numcuenta = c.getId();
+		try {
+			c.transferir(numcuenta, 10, "Concepto");
+		} catch (CuentaInvalidaException | ImporteInvalidoException | SaldoInsuficienteException e) {
+			fail();
+		}
+		
+	}
+	
+	
+	@Test
+	public void testEmitirTDCorrecta() {
+		Cuenta c = new Cuenta(1);
+		
+		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
+		//Cliente valentin = new Cliente("12345678Q", "Valentin", "Stoyanov");
+		david.insert();
+		try {
+			c.addTitular(david);
+			c.insert();
+			c.emitirTarjetaDebito(david.getNif());
+			
+		} catch (CuentaSinTitularesException | CuentaYaCreadaException | ClienteNoEncontradoException | ClienteNoAutorizadoException e) {
+			fail();
+		}
+		
+	}
+	@Test
+	public void testLoad() {
+		Cuenta c = new Cuenta(1);
+		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
+		david.insert();
+		try {
+			c.addTitular(david);
+			c.insert();
+		} catch (CuentaYaCreadaException | CuentaSinTitularesException e) {
+			fail();
+		}
+	
 	}
 }
