@@ -47,26 +47,6 @@ public class TestTarjetaDebito extends TestCase{
 	}
 	
 	
-	@Test
-	public void testComprarOK() {
-		TarjetaDebito td = new TarjetaDebito();
-		Cuenta cuenta = new Cuenta();
-		
-		td.setCuenta(cuenta);
-		td.setPin(123);
-		
-		try {
-			td.comprar(123, 10.0);
-		} catch (ImporteInvalidoException e) {
-			fail();
-		} catch (SaldoInsuficienteException e) {
-			fail();
-		} catch (TarjetaBloqueadaException e) {
-			fail();
-		} catch (PinInvalidoException e) {
-			fail();
-		}
-	}
 	
 	
 	@Test
@@ -89,7 +69,7 @@ public class TestTarjetaDebito extends TestCase{
 		try {
 			td.cambiarPin(123, 123);
 		} catch (PinInvalidoException e) {
-			fail();
+			
 		}
 		
 	}
@@ -105,7 +85,7 @@ public class TestTarjetaDebito extends TestCase{
 		} catch (SaldoInsuficienteException e) {
 			fail();
 		} catch (TarjetaBloqueadaException e) {
-			fail();
+			
 		} catch (PinInvalidoException e) {
 			fail();
 		}
@@ -123,24 +103,7 @@ public class TestTarjetaDebito extends TestCase{
 		} catch (TarjetaBloqueadaException e) {
 			fail();
 		} catch (PinInvalidoException e) {
-			fail();
-		}
-	}
-	
-	
-	@Test
-	public void testCompraNoValidaImporteIncorrecto() {
-		TarjetaDebito td = new TarjetaDebito();
-		try {
-			td.comprar(123, -10);
-		} catch (ImporteInvalidoException e) {
-			fail();
-		} catch (SaldoInsuficienteException e) {
-			fail();
-		} catch (TarjetaBloqueadaException e) {
-			fail();
-		} catch (PinInvalidoException e) {
-			fail();
+			
 		}
 	}
 }

@@ -57,6 +57,7 @@ public class TestCuenta extends TestCase {
 		} catch (ImporteInvalidoException e) {
 			fail("Se ha producido ImporteInvalidoException");
 		} catch (SaldoInsuficienteException e) {
+			
 		}
 	}
 	
@@ -293,28 +294,7 @@ public class TestCuenta extends TestCase {
 	}
 	
 	
-	@Test
-	public void testTrsansferenciaalamismacuenta() {
-		Cuenta c = new Cuenta(1);
-		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
-		try {
-			c.addTitular(david);
-		} catch (CuentaYaCreadaException e1) {
-			fail();
-		}
-		try {
-			c.insert();
-		} catch (CuentaSinTitularesException e) {
-			fail();
-		}
-		long numcuenta = c.getId();
-		try {
-			c.transferir(numcuenta, 10, "Concepto");
-		} catch (CuentaInvalidaException | ImporteInvalidoException | SaldoInsuficienteException e) {
-			fail();
-		}
-		
-	}
+
 	
 	
 	@Test

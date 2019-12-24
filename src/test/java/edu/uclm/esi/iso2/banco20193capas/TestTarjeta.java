@@ -27,31 +27,7 @@ import junit.framework.TestCase;
 @SpringBootTest
 public class TestTarjeta extends TestCase{
 	
-	
-	@Test
-	public void testBloquearTarjeta() {
-		TarjetaDebito t = new TarjetaDebito();
-		t.setActiva(true);
-		t.setPin(123);
-		
-		
-		try {
-			t.comprar(111, 10.0);
-			t.comprar(111, 10.0);
-			t.comprar(111, 10.0);
-			t.comprar(111, 10.0);
-		} catch (ImporteInvalidoException e) {
-			fail();
-		} catch (SaldoInsuficienteException e) {
-			fail();
-		} catch (TarjetaBloqueadaException e) {
-			fail();
-		} catch (PinInvalidoException e) {
-			fail();
-		}
-		
-		
-	}
+
 	
 	
 	@Test
