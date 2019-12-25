@@ -25,20 +25,20 @@ public class TestClienteNoAutorizadoException extends TestCase{
 
 	@Before
 	public void setUp() {
-		Cliente pepe= new Cliente("123","Pepe","Tomates");
-		Cliente eva= new Cliente("1234","Eva","Pepinos");
-		Cuenta c= new Cuenta(333);
+		
 	}
 	
 	@Test
 	public void testCuentaNoTitulares() {
-		Cliente pepe= new Cliente("123","Pepe","Tomates");
+		Cliente juan= new Cliente("123","Juan","Tomates");
+		juan.insert();
 		Cliente eva= new Cliente("1234","Eva","Pepinos");
 		Cuenta c= new Cuenta(333);
+		
 		boolean encontrado = false;
 		try {
-			pepe.insert();
-			c.addTitular(pepe);
+			
+			c.addTitular(juan);
 			c.insert();
 			
 		} catch (CuentaSinTitularesException | CuentaYaCreadaException e1) {
@@ -63,16 +63,16 @@ public class TestClienteNoAutorizadoException extends TestCase{
 	}
 	@Test
 	public void testEncuentraTitular() {
-		Cliente pepe= new Cliente("123","Pepe","Tomates");
 		Cliente eva= new Cliente("1234","Eva","Pepinos");
+		
 		Cuenta c= new Cuenta(333);
 		try {
+			eva.insert();
 			c.addTitular(eva);
-			c.addTitular(pepe);
-		} catch (CuentaYaCreadaException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			fail("cuenta ya creada");
+			c.insert();
+			
+		}catch(Exception e) {
+			fail("nothing should have happen "+ e);
 		}
 		
 		boolean encontrado = false;

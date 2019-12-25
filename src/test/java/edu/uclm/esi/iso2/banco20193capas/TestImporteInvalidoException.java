@@ -47,7 +47,6 @@ public class TestImporteInvalidoException extends TestCase {
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 			fail("una excepcion inesperada " + e);
 		}
 		try {
@@ -58,7 +57,7 @@ public class TestImporteInvalidoException extends TestCase {
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("exception: " + e);
 		}
 	}
 	
