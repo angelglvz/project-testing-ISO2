@@ -1,13 +1,17 @@
 package edu.uclm.esi.iso2.banco20193capas;
 
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import edu.uclm.esi.iso2.banco20193capas.exceptions.ClienteNoEncontradoException;
 import edu.uclm.esi.iso2.banco20193capas.model.Cliente;
-
+import edu.uclm.esi.iso2.banco20193capas.model.Manager;
 import junit.framework.TestCase;
 
 @RunWith(SpringRunner.class)

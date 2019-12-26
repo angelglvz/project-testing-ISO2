@@ -3,6 +3,7 @@ package edu.uclm.esi.iso2.banco20193capas;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import edu.uclm.esi.iso2.banco20193capas.exceptions.CuentaSinTitularesException;
@@ -70,4 +71,42 @@ public class TestTarjeta extends TestCase{
 	
 	
 	
+	@Test
+	public void testTokenInvalidoExceptionF() {
+		Tarjeta t = new TarjetaDebito();
+		Cuenta c= new Cuenta(1);
+		Cliente pepe= new Cliente("aa","pepe","pepino");
+		pepe.insert();
+		try {
+			c.addTitular(pepe);
+			c.insert();
+			c.ingresar(500);
+		} catch (CuentaYaCreadaException | CuentaSinTitularesException | ImporteInvalidoException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		t.setCuenta(c);
+		t.setId((long) 123);
+		t.setPin(1111);
+		t.setTitular(pepe);
+		t.setActiva(true);
+		try {
+			t.confirmarCompraPorInternet(t.comprarPorInternet(1111, 50)-1);
+		} catch (TokenInvalidoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ImporteInvalidoException e) {
+			// TODO Auto-generated catch block
+			fail(""+e);
+		} catch (SaldoInsuficienteException e) {
+			// TODO Auto-generated catch block
+			fail(""+e);
+		} catch (TarjetaBloqueadaException e) {
+			// TODO Auto-generated catch block
+			fail(""+e);
+		} catch (PinInvalidoException e) {
+			// TODO Auto-generated catch block
+			fail(""+e);
+		}
+	}
 }

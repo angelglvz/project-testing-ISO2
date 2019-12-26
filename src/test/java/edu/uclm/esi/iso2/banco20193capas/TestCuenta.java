@@ -2,11 +2,13 @@ package edu.uclm.esi.iso2.banco20193capas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import edu.uclm.esi.iso2.banco20193capas.model.Cuenta;
@@ -342,4 +344,35 @@ public class TestCuenta extends TestCase {
 		}
 	
 	}
+	
+	/*@Test
+	public void testClienteNoEncontradoException() {
+		Cliente pepe= new Cliente("123","Pepe","Tomates");
+		
+		Cuenta c1 = new Cuenta(333);
+		pepe.insert();
+		try {
+			c1.addTitular(pepe);
+			c1.insert();
+			Manager.getClienteDAO().deleteById(pepe.getId());
+			c1.emitirTarjetaDebito(pepe.getNif());
+			
+		}catch(ClienteNoEncontradoException e) {
+			e.printStackTrace();
+			
+		}catch(ClienteNoAutorizadoException e) {
+			fail("exception " + e);
+		}catch(CuentaSinTitularesException e) {
+			fail("exception " + e);
+
+		} catch (CuentaYaCreadaException e) {
+			fail("exception " + e);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}*/
+	
 }
