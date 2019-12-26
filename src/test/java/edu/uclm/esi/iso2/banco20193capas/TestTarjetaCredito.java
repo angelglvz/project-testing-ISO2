@@ -31,6 +31,12 @@ import junit.framework.TestCase;
 @SpringBootTest
 public class TestTarjetaCredito extends TestCase{
 	
+	private Cuenta cuentaAna;
+	private Cliente  ana;
+	private TarjetaDebito  tdAna;
+	private TarjetaCredito  tcAna;
+	
+	
 	@Before
 	public void setUp() {
 		Manager.getMovimientoDAO().deleteAll();
@@ -39,9 +45,135 @@ public class TestTarjetaCredito extends TestCase{
 		Manager.getTarjetaDebitoDAO().deleteAll();
 		Manager.getCuentaDAO().deleteAll();
 		Manager.getClienteDAO().deleteAll();
+
+
+		this.ana = new Cliente("98765F", "Ana", "López");
+		this.ana.insert();
+		this.cuentaAna = new Cuenta(2);
+		try {
+
+			this.cuentaAna.addTitular(ana);
+			this.cuentaAna.insert();
+			this.cuentaAna.ingresar(5000);
+			this.tcAna = this.cuentaAna.emitirTarjetaCredito(ana.getNif(), 10000);
+			this.tcAna.cambiarPin(this.tcAna.getPin(), 1234);
+			this.tdAna = this.cuentaAna.emitirTarjetaDebito(ana.getNif());
+			this.tdAna.cambiarPin(this.tdAna.getPin(), 1234);
+		} catch (Exception e) {
+			fail("Excepción inesperada en setUp(): " + e);
+		}
 	}
 	
-
+	@Test
+	public void testSacarDineroOK() {
+		try {
+			tcAna.sacarDinero(1234, 100);
+		} catch (ImporteInvalidoException e) {
+			fail();
+		} catch (SaldoInsuficienteException e) {
+			fail();
+		} catch (TarjetaBloqueadaException e) {
+			fail();
+		} catch (PinInvalidoException e) {
+			fail();
+		}
+	}
+	
+	@Test
+	public void testSacarDineroSaldoInsufieciente() {
+		try {
+			tcAna.sacarDinero(1234, 1000000);
+		} catch (ImporteInvalidoException e) {
+			fail();
+		} catch (SaldoInsuficienteException e) {
+			
+		} catch (TarjetaBloqueadaException e) {
+			fail();
+		} catch (PinInvalidoException e) {
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void testSacarDineroImporteInvalido() {
+		try {
+			tcAna.sacarDinero(1234, -100);
+		} catch (ImporteInvalidoException e) {
+			
+		} catch (SaldoInsuficienteException e) {
+			fail();
+		} catch (TarjetaBloqueadaException e) {
+			fail();
+		} catch (PinInvalidoException e) {
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void testComprarPorInternetImporteInvalido() {
+		try {
+			tcAna.comprarPorInternet(1234, -10);
+		} catch (TarjetaBloqueadaException e) {
+			fail();
+		} catch (PinInvalidoException e) {
+			fail();
+		} catch (SaldoInsuficienteException e) {
+			fail();
+		} catch (ImporteInvalidoException e) {
+			
+		}
+	}
+	
+	
+	@Test
+	public void testComprarPorInternetSaldoInsuficiente() {
+		try {
+			tcAna.comprarPorInternet(1234, 1000000);
+		} catch (TarjetaBloqueadaException e) {
+			fail();
+		} catch (PinInvalidoException e) {
+			fail();
+		} catch (SaldoInsuficienteException e) {
+			
+		} catch (ImporteInvalidoException e) {
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void testComprarImporteInvalido() {
+		try {
+			tcAna.comprar(1234, -10);
+		} catch (ImporteInvalidoException e) {
+			
+		} catch (SaldoInsuficienteException e) {
+			fail();
+		} catch (TarjetaBloqueadaException e) {
+			fail();
+		} catch (PinInvalidoException e) {
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void testComprarSaldoInsuficiente() {
+		try {
+			tcAna.comprar(1234, 1000000);
+		} catch (ImporteInvalidoException e) {
+			fail();
+		} catch (SaldoInsuficienteException e) {
+			
+		} catch (TarjetaBloqueadaException e) {
+			fail();
+		} catch (PinInvalidoException e) {
+			fail();
+		}
+	}
+	
 	
 	@Test
 	public void testGetCredito() {

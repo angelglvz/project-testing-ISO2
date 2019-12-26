@@ -2,13 +2,11 @@ package edu.uclm.esi.iso2.banco20193capas;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import edu.uclm.esi.iso2.banco20193capas.model.Cuenta;
@@ -329,6 +327,32 @@ public class TestCuenta extends TestCase {
 		}
 		
 	}
+	
+	@Test
+	public void testEmitirTDSinTitular() {
+		Cuenta c = new Cuenta(1);
+		
+		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
+		Cliente valentin = new Cliente("X8866", "Valentin", "Stoyanov");
+		david.insert();
+		try {
+			c.addTitular(david);
+			valentin.insert();
+			c.insert();
+			c.emitirTarjetaDebito(valentin.getNif());
+			
+		} catch (CuentaSinTitularesException  e) {
+			fail();
+		} catch (CuentaYaCreadaException e) {
+			fail();
+		} catch (ClienteNoEncontradoException e) {
+			fail();
+		} catch (ClienteNoAutorizadoException e) {
+			
+		}
+		
+	}
+	
 	@Test
 	public void testLoad() {
 		Cuenta c = new Cuenta(1);
@@ -344,35 +368,4 @@ public class TestCuenta extends TestCase {
 		}
 	
 	}
-	
-	/*@Test
-	public void testClienteNoEncontradoException() {
-		Cliente pepe= new Cliente("123","Pepe","Tomates");
-		
-		Cuenta c1 = new Cuenta(333);
-		pepe.insert();
-		try {
-			c1.addTitular(pepe);
-			c1.insert();
-			Manager.getClienteDAO().deleteById(pepe.getId());
-			c1.emitirTarjetaDebito(pepe.getNif());
-			
-		}catch(ClienteNoEncontradoException e) {
-			e.printStackTrace();
-			
-		}catch(ClienteNoAutorizadoException e) {
-			fail("exception " + e);
-		}catch(CuentaSinTitularesException e) {
-			fail("exception " + e);
-
-		} catch (CuentaYaCreadaException e) {
-			fail("exception " + e);
-
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-	}*/
-	
 }
