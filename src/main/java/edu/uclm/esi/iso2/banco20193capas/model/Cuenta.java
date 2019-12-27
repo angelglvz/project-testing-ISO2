@@ -41,9 +41,9 @@ public class Cuenta {
 		this.id=id;
 	}
 	
-	public Cuenta(Integer id) {
+	/*public Cuenta(Integer id) {
 		this(new Long(id));
-	}
+	}*/
 	
 	/**
 	 * Añade un cliente a la lista de titulares de esta cuenta

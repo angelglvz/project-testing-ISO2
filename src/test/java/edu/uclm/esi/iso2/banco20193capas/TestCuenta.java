@@ -47,7 +47,7 @@ public class TestCuenta extends TestCase {
 	public void testRetiradaSinSaldo() {
 		Cliente pepe = new Cliente("12345X", "Pepe", "Pérez");
 		pepe.insert();
-		Cuenta cuentaPepe = new Cuenta(1);
+		Cuenta cuentaPepe = new Cuenta((long)1);
 		try {
 			cuentaPepe.addTitular(pepe);
 			cuentaPepe.insert();
@@ -71,7 +71,7 @@ public class TestCuenta extends TestCase {
 			Cliente pepe = new Cliente("12345X", "Pepe", "Pérez");
 			pepe.insert();
 			
-			Cuenta cuentaPepe = new Cuenta(1);
+			Cuenta cuentaPepe = new Cuenta((long)1);
 			cuentaPepe.addTitular(pepe);
 			cuentaPepe.insert();
 			cuentaPepe.ingresar(1000);
@@ -86,7 +86,7 @@ public class TestCuenta extends TestCase {
 		Cliente pepe = new Cliente("12345X", "Pepe", "Pérez");
 		pepe.insert();
 		
-		Cuenta cuentaPepe = new Cuenta(1);
+		Cuenta cuentaPepe = new Cuenta((long)1);
 		
 		try {
 			cuentaPepe.insert();
@@ -103,8 +103,8 @@ public class TestCuenta extends TestCase {
 		Cliente ana = new Cliente("98765F", "Ana", "López");
 		ana.insert();
 		
-		Cuenta cuentaPepe = new Cuenta(1);
-		Cuenta cuentaAna = new Cuenta(2);
+		Cuenta cuentaPepe = new Cuenta((long)1);
+		Cuenta cuentaAna = new Cuenta((long)2);
 		try {
 			cuentaPepe.addTitular(pepe);
 			cuentaPepe.insert();
@@ -127,7 +127,7 @@ public class TestCuenta extends TestCase {
 		Cliente pepe = new Cliente("12345X", "Pepe", "Pérez");
 		pepe.insert();
 		
-		Cuenta cuentaPepe = new Cuenta(1);
+		Cuenta cuentaPepe = new Cuenta((long)1);
 		try {
 			cuentaPepe.addTitular(pepe);
 			cuentaPepe.insert();
@@ -154,8 +154,8 @@ public class TestCuenta extends TestCase {
 		Cliente ana = new Cliente("98765K", "Ana", "López");
 		ana.insert();
 		
-		Cuenta cuentaPepe = new Cuenta(1);
-		Cuenta cuentaAna = new Cuenta(2);
+		Cuenta cuentaPepe = new Cuenta((long)1);
+		Cuenta cuentaAna = new Cuenta((long)2);
 		try {
 			cuentaPepe.addTitular(pepe);
 			cuentaPepe.insert();
@@ -175,7 +175,7 @@ public class TestCuenta extends TestCase {
 		Cliente pepe = new Cliente("12345X", "Pepe", "Pérez");
 		pepe.insert();
 		
-		Cuenta cuentaPepe = new Cuenta(1);
+		Cuenta cuentaPepe = new Cuenta((long)1);
 		try {
 			cuentaPepe.addTitular(pepe);
 			cuentaPepe.insert();
@@ -193,7 +193,7 @@ public class TestCuenta extends TestCase {
 		Cliente pepe = new Cliente("12345X", "Pepe", "Pérez");
 		pepe.insert();
 		
-		Cuenta cuentaPepe = new Cuenta(1);
+		Cuenta cuentaPepe = new Cuenta((long)1);
 		try {
 			cuentaPepe.addTitular(pepe);
 			cuentaPepe.insert();
@@ -237,7 +237,7 @@ public class TestCuenta extends TestCase {
 	@Test
 	public void testIngresarValorNegativo()  {
 		int negativo=-1;
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		try {
 			c.ingresar(negativo);
 		} catch (ImporteInvalidoException e) {
@@ -247,7 +247,7 @@ public class TestCuenta extends TestCase {
 	@Test
 	public void testRetirarValorNegativo()  {
 		int negativo=-1;
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		
 			try {
 				c.retirar(negativo);
@@ -260,7 +260,7 @@ public class TestCuenta extends TestCase {
 	}
 	@Test
 	public void testAddTitularRepetido() {//no funciona
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
 		david.insert();
 		
@@ -276,13 +276,13 @@ public class TestCuenta extends TestCase {
 	}
 	@Test
 	public void testLoadVacio() {//queda averiguar como usar un metodo protegido
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
 		david.insert();
 	}
 	@Test
 	public void testDNITarjeta() {
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
 		david.insert();
 		try {
@@ -310,7 +310,7 @@ public class TestCuenta extends TestCase {
 	
 	@Test
 	public void testEmitirTDCorrecta() {
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		
 		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
 		//Cliente valentin = new Cliente("12345678Q", "Valentin", "Stoyanov");
@@ -334,7 +334,7 @@ public class TestCuenta extends TestCase {
 	
 	@Test
 	public void testEmitirTDSinTitular() {
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		
 		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
 		Cliente valentin = new Cliente("X8866", "Valentin", "Stoyanov");
@@ -359,7 +359,7 @@ public class TestCuenta extends TestCase {
 	
 	@Test
 	public void testLoad() {
-		Cuenta c = new Cuenta(1);
+		Cuenta c = new Cuenta((long)1);
 		Cliente david = new Cliente("05936385Q", "David", "Utrilla");
 		david.insert();
 		try {

@@ -49,7 +49,7 @@ public class TestTarjetaCredito extends TestCase{
 
 		this.ana = new Cliente("98765F", "Ana", "López");
 		this.ana.insert();
-		this.cuentaAna = new Cuenta(2);
+		this.cuentaAna = new Cuenta((long)2);
 		try {
 
 			this.cuentaAna.addTitular(ana);
