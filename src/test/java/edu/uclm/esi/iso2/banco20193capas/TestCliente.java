@@ -13,7 +13,10 @@ import edu.uclm.esi.iso2.banco20193capas.exceptions.ClienteNoEncontradoException
 import edu.uclm.esi.iso2.banco20193capas.model.Cliente;
 import edu.uclm.esi.iso2.banco20193capas.model.Manager;
 import junit.framework.TestCase;
-
+/**
+ * @author Jose Antonio Arias
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestCliente extends TestCase{
@@ -51,7 +54,4 @@ public class TestCliente extends TestCase{
 		c.setApellidos("Stoyanov Tsvetanov");
 		assertTrue(c.getApellidos()=="Stoyanov Tsvetanov");
 	}
-	
-	
-
 }

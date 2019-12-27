@@ -2,10 +2,12 @@ package edu.uclm.esi.iso2.banco20193capas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import edu.uclm.esi.iso2.banco20193capas.model.Cliente;
 import edu.uclm.esi.iso2.banco20193capas.model.Cuenta;
-
+/**
+ * @author Jose Antonio Arias
+ *
+ */
 @SpringBootApplication
 public class Lanzadora {
 
